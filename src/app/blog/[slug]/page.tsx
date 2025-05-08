@@ -6,18 +6,23 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import Container from '@/components/Container'
 import Section from '@/components/Section'
 
-interface Props {
-    params: { slug: string }
-}
-
 export async function generateStaticParams() {
     const blogDir = path.join(process.cwd(), 'content', 'blog')
-    const files = fs.readdirSync(blogDir).filter((file) => file.endsWith('.mdx'))
+    const files = fs
+        .readdirSync(blogDir)
+        .filter((file) => file.endsWith('.mdx'))
     return files.map((file) => ({ slug: file.replace(/\.mdx$/, '') }))
 }
 
+// 1. Make params a Promise
+type Props = {
+    params: Promise<{ slug: string }>
+}
+
 export default async function BlogPostPage(props: Props) {
+    // 2. Await the async params API
     const { slug } = await props.params
+
     const blogDir = path.join(process.cwd(), 'content', 'blog')
     const filePath = path.join(blogDir, `${slug}.mdx`)
 
@@ -28,7 +33,7 @@ export default async function BlogPostPage(props: Props) {
     const source = fs.readFileSync(filePath, 'utf8')
     const { content, frontmatter } = await compileMDX({
         source,
-        options: { parseFrontmatter: true }
+        options: { parseFrontmatter: true },
     })
 
     const { title, date, author } = frontmatter as {
