@@ -1,0 +1,20 @@
+/* Import web fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base resets + body defaults */
+html,
+body {
+  @apply bg-neutral-100 text-neutral-900 font-sans;
+}
+
+/* Dark-mode overrides via media query */
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    @apply bg-neutral-900 text-neutral-100;
+  }
+}
