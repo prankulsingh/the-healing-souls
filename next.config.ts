@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
 
   // Tell Next.js to output a fully static site
-  output: "export",
+  // output: "export",
 
   // disable all built-in image optimization
   images: {

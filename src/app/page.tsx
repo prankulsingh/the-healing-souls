@@ -30,7 +30,7 @@ export default function HomePage() {
             {/* Portrait */}
             <div className="mt-8 md:mt-0">
               <Image
-                  src="/portrait.png"
+                  src="/portrait.jpg"
                   alt="Portrait of Vishakha Singh"
                   width={400}
                   height={400}

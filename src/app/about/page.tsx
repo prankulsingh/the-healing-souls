@@ -12,7 +12,7 @@ export default function AboutPage() {
                 <Container className="flex flex-col md:flex-row items-center">
                     <div className="md:w-1/3">
                         <Image
-                            src="/portrait.png"
+                            src="/portrait.jpg"
                             alt="Portrait of Vishakha Singh"
                             width={300}
                             height={300}
