@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   // Tell Next.js to output a fully static site
   output: "export",
 
+  // disable all built-in image optimization
+  images: {
+    unoptimized: true,
+  },
+
   // If you have asset prefixes or base paths (e.g. deploying to USERNAME.github.io/repo),
   // set `basePath` and/or `assetPrefix` here too.
   // basePath: "/my-nextjs-site",
