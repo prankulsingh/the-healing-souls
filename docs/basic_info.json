@@ -1,0 +1,39 @@
+{
+    "brandName": "The Healing Souls",
+    "practitionerName": "Vishakha Singh",
+    "title": "Counselling Psychologist",
+    "credentials":
+    [
+        "B.A. (Hons) Psychology — Delhi University",
+        "Master’s in Applied Psychology — Amity University",
+        "Certified in CBT",
+        "Certified in REBT",
+        "Pursuing Diploma in Guidance and Counselling — Jamia Millia Islamia (Open)",
+        "Diploma in Elementary Education"
+    ],
+    "modalities":
+    [
+        "Client-Centered Therapy",
+        "Cognitive Behavioural Therapy (CBT)",
+        "Rational Emotive Behaviour Therapy (REBT)",
+        "Mindfulness-Based Techniques",
+        "Eclectic Approach"
+    ],
+    "brandVoice":
+    [
+        "warm",
+        "gentle",
+        "emotionally safe",
+        "professional",
+        "non-judgmental",
+        "science-backed",
+        "hopeful"
+    ],
+    "links":
+    {
+        "instagram": "https://www.instagram.com/_the_healing_souls",
+        "topmate": "https://topmate.io/vishakha_singh14",
+        "whatsapp": "TODO_CONFIRM",
+        "email": "TODO_CONFIRM"
+    }
+}
