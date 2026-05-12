@@ -1,0 +1,38 @@
+---
+import { externalLinks, isConfirmedLink } from "@data/external-links";
+import { practitioner } from "@data/practitioner";
+import { crisisSupport } from "@data/crisis-support";
+import { sitePath } from "@data/site-path";
+---
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="stack">
+      <a class="brand" href={sitePath("/")}>
+        <span class="brand-mark" aria-hidden="true">HS</span>
+        <span>{practitioner.brandName}</span>
+      </a>
+      <p class="muted">A warm, counselling-informed space by {practitioner.name}, {practitioner.title}.</p>
+      <p><strong>{crisisSupport.shortLabel}:</strong> {crisisSupport.message} {crisisSupport.indiaHelpline}.</p>
+    </div>
+    <div>
+      <h3>Explore</h3>
+      <p><a href={sitePath("/about")}>About</a></p>
+      <p><a href={sitePath("/sessions")}>Sessions</a></p>
+      <p><a href={sitePath("/self-help")}>Self-help</a></p>
+      <p><a href={sitePath("/resources")}>Resources</a></p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p><a href={externalLinks.topmate} target="_blank" rel="noreferrer">Topmate</a></p>
+      <p><a href={externalLinks.instagram} target="_blank" rel="noreferrer">Instagram</a></p>
+      <p>{isConfirmedLink(externalLinks.whatsapp) ? <a href={externalLinks.whatsapp}>WhatsApp</a> : "WhatsApp coming soon"}</p>
+      <p>{isConfirmedLink(externalLinks.email) ? <a href={`mailto:${externalLinks.email}`}>Email</a> : "Email coming soon"}</p>
+    </div>
+    <div>
+      <h3>Legal</h3>
+      <p><a href={sitePath("/privacy")}>Privacy</a></p>
+      <p><a href={sitePath("/disclaimer")}>Disclaimer</a></p>
+      <p><a href={sitePath("/terms")}>Terms</a></p>
+    </div>
+  </div>
+</footer>

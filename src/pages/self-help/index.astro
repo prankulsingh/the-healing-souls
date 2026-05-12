@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { sitePath } from "@data/site-path";
+---
+<BaseLayout title="Self-help tools | The Healing Souls" description="Gentle self-help tools for grounding, breathing, reflection, and rituals.">
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Self-help</p>
+      <h1>A small library for the moment you are in.</h1>
+      <p class="lede">These tools are educational and reflective. They are not diagnosis, treatment plans, or crisis support.</p>
+      <SafetyNote />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid grid-3">
+      <LinkCard title="Breathing orb" text="Follow a soft visual rhythm for a short pause." href={sitePath("/self-help/breathe")} cta="Start breathing" />
+      <LinkCard title="Grounding room" text="Move through a 5-4-3-2-1 sensory check-in." href={sitePath("/self-help/ground")} cta="Start grounding" />
+      <LinkCard title="Mood check-in" text="Choose what feels closest and receive a gentle next step." href={sitePath("/self-help/check-in")} cta="Check in" />
+      <LinkCard title="Private journal" text="Reflect locally on your device with starter prompts." href={sitePath("/self-help/journal")} cta="Open journal" />
+      <LinkCard title="Short rituals" text="Try a morning, midday, evening, or hard-day reset." href={sitePath("/self-help/rituals")} cta="Pick a ritual" />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { sitePath } from "@data/site-path";
+---
+<BaseLayout title="Resources | The Healing Souls" description="Curated grounding resources and starter reading topics.">
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Resources</p><h1>Thoughtful reading for self-reflection.</h1><p class="lede">The editorial library will grow around overthinking, burnout, boundaries, self-worth, heartbreak, stress, sleep, journaling, and gentle routines.</p><SafetyNote /></div></section>
+  <section class="section"><div class="container grid grid-3"><LinkCard title="Overthinking" text="For mental loops and inner noise." href={sitePath("/self-help/check-in")} cta="Find a practice" /><LinkCard title="Burnout" text="For heaviness, depletion, and rest resistance." href={sitePath("/self-help/rituals")} cta="Try a ritual" /><LinkCard title="Boundaries" text="For clearer communication without harshness." href={sitePath("/sessions")} cta="Explore support" /></div></section>
+</BaseLayout>
