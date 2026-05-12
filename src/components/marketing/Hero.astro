@@ -1,0 +1,27 @@
+---
+import { externalLinks } from "@data/external-links";
+import { practitioner } from "@data/practitioner";
+import { sitePath } from "@data/site-path";
+---
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="stack">
+      <p class="eyebrow">{practitioner.name} · {practitioner.title}</p>
+      <h1>A softer place to pause, reflect, and begin again.</h1>
+      <p class="lede">Counselling-informed sessions, gentle self-help tools, and thoughtful resources for overwhelm, burnout, heartbreak, and inner noise.</p>
+      <div class="button-row">
+        <a class="button button-primary" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a>
+        <a class="button button-secondary" href={sitePath("/self-help")}>Explore self-help</a>
+        <a class="button button-soft" href={sitePath("/contact")}>Get in touch</a>
+      </div>
+    </div>
+    <div class="card hero-art" aria-label="Calm abstract healing artwork">
+      <span class="orb one" aria-hidden="true"></span>
+      <span class="orb two" aria-hidden="true"></span>
+      <div class="hero-art-content stack">
+        <p class="eyebrow" style="color: #f4efe8;">Grounded support</p>
+        <h2>Warm care, clear boundaries, no overwhelm.</h2>
+      </div>
+    </div>
+  </div>
+</section>

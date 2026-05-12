@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import ContactActions from "@components/marketing/ContactActions.astro";
+import { practitioner } from "@data/practitioner";
+---
+<BaseLayout title={`About ${practitioner.name} | ${practitioner.brandName}`} description="Meet Vishakha Singh, Counselling Psychologist behind The Healing Souls.">
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">About</p>
+      <h1>Professional support that still feels human.</h1>
+      <p class="lede">{practitioner.name} is a {practitioner.title} creating a warm, non-judgmental space for reflection, emotional clarity, and gentle change.</p>
+      <SafetyNote />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid grid-2">
+      <article class="card stack">
+        <h2>Credentials</h2>
+        <ul>{practitioner.credentials.map((credential) => <li>{credential}</li>)}</ul>
+      </article>
+      <article class="card stack">
+        <h2>Modalities</h2>
+        <ul>{practitioner.modalities.map((modality) => <li>{modality}</li>)}</ul>
+      </article>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container card stack">
+      <h2>Who this space is for</h2>
+      <p class="lede">People moving through overwhelm, overthinking, burnout, heartbreak, boundary struggles, low self-worth, or a desire to understand themselves more clearly.</p>
+      <p class="muted">This website offers educational and reflective support. It does not replace emergency care, diagnosis, or crisis intervention.</p>
+      <ContactActions />
+    </div>
+  </section>
+</BaseLayout>

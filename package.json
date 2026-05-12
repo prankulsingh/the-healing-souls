@@ -1,0 +1,23 @@
+{
+  "name": "the-healing-souls",
+  "version": "1.0.0",
+  "description": "Static website for The Healing Souls, a premium counselling and self-help brand.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.3.1",
+    "typescript": "^6.0.3"
+  },
+  "private": true,
+  "overrides": {
+    "yaml": "^2.9.0"
+  }
+}

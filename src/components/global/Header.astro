@@ -1,0 +1,21 @@
+---
+import { externalLinks } from "@data/external-links";
+import { practitioner } from "@data/practitioner";
+import { sitePath } from "@data/site-path";
+---
+<header class="site-header">
+  <div class="container nav" aria-label="Primary navigation">
+    <a class="brand" href={sitePath("/")}>
+      <span class="brand-mark" aria-hidden="true">HS</span>
+      <span>{practitioner.brandName}</span>
+    </a>
+    <nav class="nav-links">
+      <a href={sitePath("/about")}>About</a>
+      <a href={sitePath("/sessions")}>Sessions</a>
+      <a href={sitePath("/self-help")}>Self-help</a>
+      <a href={sitePath("/resources")}>Resources</a>
+      <a href={sitePath("/contact")}>Contact</a>
+      <a class="button button-primary" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a>
+    </nav>
+  </div>
+</header>

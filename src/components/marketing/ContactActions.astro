@@ -1,0 +1,9 @@
+---
+import { externalLinks, isConfirmedLink } from "@data/external-links";
+---
+<div class="button-row">
+  <a class="button button-primary" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a>
+  <a class="button button-secondary" href={externalLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
+  {isConfirmedLink(externalLinks.whatsapp) ? <a class="button button-secondary" href={externalLinks.whatsapp}>WhatsApp</a> : <span class="pill">WhatsApp pending confirmation</span>}
+  {isConfirmedLink(externalLinks.email) ? <a class="button button-secondary" href={`mailto:${externalLinks.email}`}>Email</a> : <span class="pill">Email pending confirmation</span>}
+</div>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/marketing/Hero.astro";
+import TrustStrip from "@components/marketing/TrustStrip.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import SectionHeader from "@components/marketing/SectionHeader.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import ContactActions from "@components/marketing/ContactActions.astro";
+import { practitioner } from "@data/practitioner";
+import { sitePath } from "@data/site-path";
+---
+<BaseLayout>
+  <Hero />
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container stack">
+      <SafetyNote />
+      <SectionHeader eyebrow="Choose your path" title="Start where your nervous system is today." text="The site keeps one clear booking path while offering immediate, no-pressure self-help and reading options." />
+      <div class="grid grid-3">
+        <LinkCard title="Book a session" text="Understand fit, format, expectations, and then continue to Topmate for scheduling." href={sitePath("/sessions")} cta="Explore sessions" />
+        <LinkCard title="Calm myself now" text="Try a breathing guide, grounding flow, check-in, journal prompt, or short ritual." href={sitePath("/self-help")} cta="Open tools" />
+        <LinkCard title="Read something grounding" text="Browse reflections and resources for overthinking, burnout, boundaries, and rest." href={sitePath("/resources")} cta="Browse resources" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-2">
+      <div class="stack">
+        <p class="eyebrow">Approach</p>
+        <h2>Gentle care with a clear professional foundation.</h2>
+        <p class="lede">The Healing Souls blends warmth, non-judgment, and counselling-informed structure so visitors can feel held without being overwhelmed.</p>
+      </div>
+      <div class="card">
+        <ul class="pill-list">
+          {practitioner.modalities.map((modality) => <li class="pill">{modality}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-2">
+      <div class="card tool-shell stack">
+        <div class="breathing-orb" aria-hidden="true"></div>
+        <h3>Breathe in. Soften out.</h3>
+        <p class="muted">A preview of the breathing tool, with a reduced-motion fallback built into the visual system.</p>
+      </div>
+      <div class="stack">
+        <SectionHeader eyebrow="Featured tool" title="A small pause can become a doorway." text="Self-help features should feel practical and emotionally safe, not like quizzes or diagnosis engines." />
+        <a class="button button-primary" href={sitePath("/self-help/breathe")}>Try the breathing tool</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <SectionHeader eyebrow="Featured reading" title="Grounding resources for the days that feel heavy." />
+      <div class="grid grid-3">
+        <LinkCard title="When your mind will not slow down" text="A gentle guide for overthinking and mental noise." href={sitePath("/resources")} cta="Read soon" />
+        <LinkCard title="A reset for heavy days" text="A simple practice for returning to the next small step." href={sitePath("/resources")} cta="Read soon" />
+        <LinkCard title="Boundaries without harshness" text="Supportive framing for clearer communication." href={sitePath("/resources")} cta="Read soon" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container card stack">
+      <p class="eyebrow">Begin gently</p>
+      <h2>Ready to take the next right step?</h2>
+      <p class="lede">Book through Topmate, explore self-help privately, or connect through a confirmed contact channel.</p>
+      <ContactActions />
+    </div>
+  </section>
+</BaseLayout>

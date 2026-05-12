@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+const prompts = ["Name 5 things you can see.", "Notice 4 things you can feel.", "Listen for 3 things you can hear.", "Find 2 things you can smell.", "Name 1 thing you can taste or one kind thing you can say to yourself."];
+---
+<BaseLayout title="Grounding tool | The Healing Souls" description="A gentle 5-4-3-2-1 grounding flow.">
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Grounding</p><h1>5-4-3-2-1 grounding room</h1><p class="lede">Move through the prompts slowly. There is no score, result, or diagnosis.</p><SafetyNote /></div></section>
+  <section class="section"><div class="container grid">{prompts.map((prompt, index) => <article class="card"><p class="eyebrow">Step {index + 1}</p><h3>{prompt}</h3></article>)}</div></section>
+</BaseLayout>

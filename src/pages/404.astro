@@ -1,0 +1,7 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { sitePath } from "@data/site-path";
+---
+<BaseLayout title="Page not found | The Healing Souls" description="The requested page could not be found.">
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">404</p><h1>This page wandered off softly.</h1><p class="lede">Let’s return to a steadier place.</p><div class="button-row"><a class="button button-primary" href={sitePath("/")}>Go home</a><a class="button button-secondary" href={sitePath("/self-help")}>Explore self-help</a></div></div></section>
+</BaseLayout>

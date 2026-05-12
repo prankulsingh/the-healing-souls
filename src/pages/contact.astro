@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import ContactActions from "@components/marketing/ContactActions.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { externalLinks, isConfirmedLink } from "@data/external-links";
+---
+<BaseLayout title="Contact | The Healing Souls" description="Contact The Healing Souls through confirmed external channels.">
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Contact</p>
+      <h1>Choose the path that feels simplest.</h1>
+      <p class="lede">This static website does not use a contact form. Booking and messages happen through external, confirmed channels.</p>
+      <SafetyNote />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid grid-2">
+      <LinkCard title="Book on Topmate" text="Best for session booking, scheduling, and payment." href={externalLinks.topmate} cta="Open Topmate" external />
+      <LinkCard title="Instagram" text="Follow or message The Healing Souls on Instagram." href={externalLinks.instagram} cta="Open Instagram" external />
+      <article class="card stack"><h3>WhatsApp</h3><p class="muted">{isConfirmedLink(externalLinks.whatsapp) ? "Confirmed WhatsApp contact is available." : "WhatsApp link is pending confirmation and is intentionally not active yet."}</p></article>
+      <article class="card stack"><h3>Email</h3><p class="muted">{isConfirmedLink(externalLinks.email) ? "Confirmed email contact is available." : "Public email is pending confirmation and is intentionally not active yet."}</p></article>
+    </div>
+  </section>
+  <section class="section"><div class="container card stack"><h2>External contact actions</h2><ContactActions /></div></section>
+</BaseLayout>

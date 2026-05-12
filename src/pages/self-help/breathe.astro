@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+---
+<BaseLayout title="Breathing tool | The Healing Souls" description="A gentle breathing orb for a short pause.">
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Calm now</p>
+      <h1>Breathing orb</h1>
+      <p class="lede">Follow the orb as it expands and softens. If motion is reduced in your device settings, the animation will pause.</p>
+      <SafetyNote />
+    </div>
+  </section>
+  <section class="section"><div class="container card tool-shell stack"><div class="breathing-orb" aria-hidden="true"></div><h2>Inhale gently. Exhale slowly.</h2><p class="muted">A fuller timed mode selector can be added in the next iteration.</p></div></section>
+</BaseLayout>

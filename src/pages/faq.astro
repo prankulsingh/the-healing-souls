@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import ContactActions from "@components/marketing/ContactActions.astro";
+const faqs = [
+  ["Do I book directly on this website?", "No. Booking and payments are handled externally through Topmate."],
+  ["Is this crisis support?", "No. This website is not for emergencies or crisis care."],
+  ["Are self-help tools therapy?", "No. They are educational and reflective supports, not diagnosis or a replacement for professional care."],
+];
+---
+<BaseLayout title="FAQ | The Healing Souls" description="Answers about booking, self-help tools, and scope of support.">
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">FAQ</p><h1>Clear answers before you begin.</h1><SafetyNote /></div></section>
+  <section class="section"><div class="container stack">{faqs.map(([question, answer]) => <article class="card stack"><h2>{question}</h2><p class="lede">{answer}</p></article>)}<ContactActions /></div></section>
+</BaseLayout>

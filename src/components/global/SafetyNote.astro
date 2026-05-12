@@ -1,0 +1,8 @@
+---
+import { crisisSupport } from "@data/crisis-support";
+const { compact = false } = Astro.props;
+---
+<aside class="safety-note" aria-label="Safety note">
+  <strong>{crisisSupport.shortLabel}.</strong>
+  <span>{compact ? " If you are in immediate danger, contact local emergency services." : ` ${crisisSupport.message} ${crisisSupport.indiaHelpline}.`}</span>
+</aside>
