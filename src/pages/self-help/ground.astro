@@ -1,8 +1,144 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-const prompts = ["Name 5 things you can see.", "Notice 4 things you can feel.", "Listen for 3 things you can hear.", "Find 2 things you can smell.", "Name 1 thing you can taste or one kind thing you can say to yourself."];
+import SafetyNote from "@components/global/SafetyNote.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
+import { sitePath } from "@data/site-path";
+
+const related = resourceArticles.filter((article) => ["when-your-mind-will-not-slow-down", "a-reset-for-heavy-days", "how-to-start-journaling-when-your-mind-is-noisy"].includes(article.slug));
 ---
 <BaseLayout title="Grounding tool | The Healing Souls" description="A gentle 5-4-3-2-1 grounding flow.">
-  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Grounding</p><h1>5-4-3-2-1 grounding room</h1><p class="lede">Move through the prompts slowly. There is no score, result, or diagnosis.</p></div></section>
-  <section class="section"><div class="container grid">{prompts.map((prompt, index) => <article class="card"><p class="eyebrow">Step {index + 1}</p><h3>{prompt}</h3></article>)}</div></section>
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Grounding</p>
+      <h1>5-4-3-2-1 grounding room</h1>
+      <p class="lede">Move through one sensory prompt at a time. You can type a word, tap an example, or skip a sense that is not practical right now.</p>
+      <SafetyNote compact />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container card grounding-room stack" data-grounding-room>
+      <div class="tool-progress">
+        <span id="ground-step-count">Step 1 of 5</span>
+        <progress id="ground-progress" value="1" max="5">Step 1 of 5</progress>
+      </div>
+      <div class="grounding-card stack">
+        <p class="eyebrow" id="ground-sense">See</p>
+        <h2 id="ground-prompt">Name 5 things you can see.</h2>
+        <p class="muted" id="ground-help">Look for shape, light, color, distance, or something still.</p>
+        <div class="choice-grid" id="ground-examples" aria-label="Example answers"></div>
+        <label class="field-label" for="ground-entry">Optional note</label>
+        <input id="ground-entry" class="text-input" type="text" placeholder="A lamp, a book, the floor..." autocomplete="off" />
+        <div class="button-row">
+          <button id="ground-next" class="button button-primary" type="button">Next step</button>
+          <button id="ground-skip" class="button button-secondary" type="button">Skip this sense</button>
+          <button id="ground-reset" class="button button-soft" type="button">Reset</button>
+        </div>
+      </div>
+      <div id="ground-complete" class="completion-card hidden stack" aria-live="polite">
+        <p class="eyebrow">Complete</p>
+        <h3>What feels a little more real right now?</h3>
+        <p class="muted">You do not need to feel calm for grounding to count. The aim is contact with the present moment.</p>
+        <div class="button-row">
+          <a class="button button-soft" href={sitePath("/self-help/journal")}>Write privately</a>
+          <a class="button button-secondary" href={sitePath("/self-help/breathe")}>Breathe next</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Other grounding modes</p>
+          <h2>Use a simpler anchor if senses feel like too much.</h2>
+        </div>
+        <p class="lede">Grounding should adapt to the room you are actually in.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card stack"><h3>Object focus</h3><p class="muted">Pick one object and describe its color, texture, shape, and temperature.</p></article>
+        <article class="card stack"><h3>Name the room</h3><p class="muted">Say where you are, what day it is, and one thing that is safe enough right now.</p></article>
+        <article class="card stack"><h3>Feet on the floor</h3><p class="muted">Press both feet down and notice the support underneath you for five slow breaths.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Related reading</p>
+          <h2>For mental loops and heavy days.</h2>
+        </div>
+        <p class="lede">Pair the grounding room with a short guide if you want words after the body settles.</p>
+      </div>
+      <div class="grid grid-3">
+        {related.map((article) => <LinkCard title={article.title} text={article.description} href={resourceArticlePath(article.slug)} cta="Read guide" />)}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const steps = [
+      { sense: "See", prompt: "Name 5 things you can see.", help: "Look for shape, light, color, distance, or something still.", examples: ["window", "plant", "shadow", "cup", "door"] },
+      { sense: "Feel", prompt: "Notice 4 things you can feel.", help: "Try contact points: feet, chair, sleeves, air, or your hands.", examples: ["feet on floor", "shirt fabric", "chair", "cool air"] },
+      { sense: "Hear", prompt: "Listen for 3 things you can hear.", help: "Sounds can be close, far, loud, soft, pleasant, or neutral.", examples: ["fan", "traffic", "breath"] },
+      { sense: "Smell", prompt: "Find 2 things you can smell.", help: "If smell is not available, skip this sense or name two neutral objects.", examples: ["tea", "soap"] },
+      { sense: "Taste", prompt: "Name 1 thing you can taste or one kind thing you can say to yourself.", help: "Taste can be water, toothpaste, tea, or a kind sentence.", examples: ["water", "I am here"] },
+    ];
+
+    const room = document.querySelector("[data-grounding-room]");
+    if (room) {
+      let index = 0;
+      const count = document.querySelector("#ground-step-count");
+      const progress = document.querySelector("#ground-progress");
+      const sense = document.querySelector("#ground-sense");
+      const prompt = document.querySelector("#ground-prompt");
+      const help = document.querySelector("#ground-help");
+      const examples = document.querySelector("#ground-examples");
+      const entry = document.querySelector("#ground-entry");
+      const complete = document.querySelector("#ground-complete");
+
+      const render = () => {
+        const step = steps[index];
+        count.textContent = `Step ${index + 1} of ${steps.length}`;
+        progress.value = index + 1;
+        sense.textContent = step.sense;
+        prompt.textContent = step.prompt;
+        help.textContent = step.help;
+        entry.value = "";
+        examples.innerHTML = "";
+        step.examples.forEach((example) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-chip";
+          button.textContent = example;
+          button.addEventListener("click", () => {
+            entry.value = entry.value ? `${entry.value}, ${example}` : example;
+          });
+          examples.append(button);
+        });
+      };
+
+      const next = () => {
+        if (index >= steps.length - 1) {
+          complete.classList.remove("hidden");
+          return;
+        }
+        index += 1;
+        render();
+      };
+
+      document.querySelector("#ground-next")?.addEventListener("click", next);
+      document.querySelector("#ground-skip")?.addEventListener("click", next);
+      document.querySelector("#ground-reset")?.addEventListener("click", () => {
+        index = 0;
+        complete.classList.add("hidden");
+        render();
+      });
+      render();
+    }
+  </script>
 </BaseLayout>

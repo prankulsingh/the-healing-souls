@@ -6,7 +6,10 @@ import SectionHeader from "@components/marketing/SectionHeader.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import ContactActions from "@components/marketing/ContactActions.astro";
 import { practitioner } from "@data/practitioner";
+import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
+
+const featuredArticles = resourceArticles.filter((article) => article.featured);
 ---
 <BaseLayout>
   <Hero />
@@ -56,9 +59,9 @@ import { sitePath } from "@data/site-path";
     <div class="container stack">
       <SectionHeader eyebrow="Featured reading" title="Grounding resources for the days that feel heavy." />
       <div class="grid grid-3">
-        <LinkCard title="When your mind will not slow down" text="A gentle guide for overthinking and mental noise." href={sitePath("/resources")} cta="Read soon" />
-        <LinkCard title="A reset for heavy days" text="A simple practice for returning to the next small step." href={sitePath("/resources")} cta="Read soon" />
-        <LinkCard title="Boundaries without harshness" text="Supportive framing for clearer communication." href={sitePath("/resources")} cta="Read soon" />
+        {featuredArticles.map((article) => (
+          <LinkCard title={article.title} text={article.description} href={resourceArticlePath(article.slug)} cta="Read guide" />
+        ))}
       </div>
     </div>
   </section>

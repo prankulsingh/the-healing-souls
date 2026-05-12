@@ -1,13 +1,191 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
+import { sitePath } from "@data/site-path";
+
+const related = resourceArticles.filter((article) => ["when-sleep-feels-far-away", "rest-without-guilt", "when-your-mind-will-not-slow-down"].includes(article.slug));
 ---
 <BaseLayout title="Breathing tool | The Healing Souls" description="A gentle breathing orb for a short pause.">
   <section class="section">
     <div class="container-narrow stack">
       <p class="eyebrow">Calm now</p>
       <h1>Breathing orb</h1>
-      <p class="lede">Follow the orb as it expands and softens. If motion is reduced in your device settings, the animation will pause.</p>
-          </div>
+      <p class="lede">Choose a breathing rhythm, set a short duration, and let the page guide one breath at a time. Hold-based patterns are optional, and reduced-motion users get text cues instead of pulsing motion.</p>
+      <SafetyNote compact />
+    </div>
   </section>
-  <section class="section"><div class="container card tool-shell stack"><div class="breathing-orb" aria-hidden="true"></div><h2>Inhale gently. Exhale slowly.</h2><p class="muted">A fuller timed mode selector can be added in the next iteration.</p></div></section>
+
+  <section class="section">
+    <div class="container card breath-tool stack" data-breath-tool>
+      <div class="tool-controls">
+        <div>
+          <p class="eyebrow">Preset</p>
+          <div class="choice-grid" role="group" aria-label="Breathing preset">
+            <button class="choice-chip is-active" type="button" data-preset="soft">Soft Reset</button>
+            <button class="choice-chip" type="button" data-preset="exhale">Longer Exhale</button>
+            <button class="choice-chip" type="button" data-preset="box">Box</button>
+            <button class="choice-chip" type="button" data-preset="sleep">Sleep Wind-down</button>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Duration</p>
+          <div class="choice-grid" role="group" aria-label="Breathing duration">
+            <button class="choice-chip is-active" type="button" data-duration="60">1 min</button>
+            <button class="choice-chip" type="button" data-duration="180">3 min</button>
+            <button class="choice-chip" type="button" data-duration="300">5 min</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="breath-stage">
+        <div class="progress-ring" aria-hidden="true">
+          <div class="breathing-orb guided-orb"></div>
+        </div>
+        <div class="stack">
+          <p class="eyebrow">Current cue</p>
+          <h2 id="breath-cue">Inhale</h2>
+          <p id="breath-detail" class="lede">Press start when you are ready. You can pause any time.</p>
+          <progress id="breath-progress" value="0" max="100">0%</progress>
+          <div class="button-row">
+            <button id="breath-start" class="button button-primary" type="button">Start</button>
+            <button id="breath-pause" class="button button-secondary" type="button">Pause</button>
+            <button id="breath-reset" class="button button-soft" type="button">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="breath-complete" class="completion-card hidden stack" aria-live="polite">
+        <p class="eyebrow">Complete</p>
+        <h3>What shifted, if anything?</h3>
+        <p class="muted">You do not need a dramatic change. Even noticing the body is enough for this round.</p>
+        <div class="button-row">
+          <a class="button button-soft" href={sitePath("/self-help/ground")}>Try grounding</a>
+          <a class="button button-secondary" href={resourceArticlePath("when-sleep-feels-far-away")}>Read a guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Related reading</p>
+          <h2>When breath needs words too.</h2>
+        </div>
+        <p class="lede">Short guides for restlessness, sleep, and the pressure to earn rest.</p>
+      </div>
+      <div class="grid grid-3">
+        {related.map((article) => <LinkCard title={article.title} text={article.description} href={resourceArticlePath(article.slug)} cta="Read guide" />)}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tool = document.querySelector("[data-breath-tool]");
+    const patterns = {
+      soft: [{ label: "Inhale", seconds: 4, scale: "1.08" }, { label: "Exhale", seconds: 6, scale: ".92" }],
+      exhale: [{ label: "Inhale", seconds: 4, scale: "1.06" }, { label: "Exhale slowly", seconds: 8, scale: ".9" }],
+      box: [{ label: "Inhale", seconds: 4, scale: "1.08" }, { label: "Hold", seconds: 4, scale: "1.08" }, { label: "Exhale", seconds: 4, scale: ".92" }, { label: "Hold", seconds: 4, scale: ".92" }],
+      sleep: [{ label: "Inhale softly", seconds: 4, scale: "1.04" }, { label: "Exhale longer", seconds: 7, scale: ".9" }],
+    };
+
+    if (tool) {
+      const cue = document.querySelector("#breath-cue");
+      const detail = document.querySelector("#breath-detail");
+      const progress = document.querySelector("#breath-progress");
+      const orb = document.querySelector(".guided-orb");
+      const complete = document.querySelector("#breath-complete");
+      let preset = localStorage.getItem("hs-breath-preset") || "soft";
+      let duration = Number(localStorage.getItem("hs-breath-duration") || 60);
+      let phaseIndex = 0;
+      let phaseRemaining = 0;
+      let elapsed = 0;
+      let timer;
+      let running = false;
+
+      const activate = (selector, value) => {
+        document.querySelectorAll(selector).forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.preset === value || button.dataset.duration === String(value));
+        });
+      };
+
+      const setPhase = () => {
+        const phase = patterns[preset][phaseIndex % patterns[preset].length];
+        cue.textContent = phase.label;
+        detail.textContent = `${phase.seconds} seconds. Keep this gentle and optional.`;
+        orb?.style.setProperty("--orb-scale", phase.scale);
+        orb?.style.setProperty("--orb-duration", `${phase.seconds}s`);
+        phaseRemaining = phase.seconds;
+        phaseIndex += 1;
+      };
+
+      const tick = () => {
+        elapsed += 1;
+        phaseRemaining -= 1;
+        progress.value = Math.min(100, (elapsed / duration) * 100);
+        if (elapsed >= duration) {
+          clearInterval(timer);
+          running = false;
+          cue.textContent = "Done";
+          detail.textContent = "Let the breath return to normal.";
+          complete?.classList.remove("hidden");
+          return;
+        }
+        if (phaseRemaining <= 0) setPhase();
+      };
+
+      const start = () => {
+        if (running) return;
+        running = true;
+        complete?.classList.add("hidden");
+        setPhase();
+        clearInterval(timer);
+        timer = setInterval(tick, 1000);
+      };
+
+      const pause = () => {
+        running = false;
+        clearInterval(timer);
+        detail.textContent = "Paused. Start again when you are ready.";
+      };
+
+      const reset = () => {
+        pause();
+        phaseIndex = 0;
+        phaseRemaining = 0;
+        elapsed = 0;
+        progress.value = 0;
+        cue.textContent = "Inhale";
+        detail.textContent = "Press start when you are ready. You can pause any time.";
+        complete?.classList.add("hidden");
+      };
+
+      document.querySelectorAll("[data-preset]").forEach((button) => {
+        button.addEventListener("click", () => {
+          preset = button.dataset.preset;
+          localStorage.setItem("hs-breath-preset", preset);
+          activate("[data-preset]", preset);
+          reset();
+        });
+      });
+
+      document.querySelectorAll("[data-duration]").forEach((button) => {
+        button.addEventListener("click", () => {
+          duration = Number(button.dataset.duration);
+          localStorage.setItem("hs-breath-duration", String(duration));
+          activate("[data-duration]", duration);
+          reset();
+        });
+      });
+
+      document.querySelector("#breath-start")?.addEventListener("click", start);
+      document.querySelector("#breath-pause")?.addEventListener("click", pause);
+      document.querySelector("#breath-reset")?.addEventListener("click", reset);
+      activate("[data-preset]", preset);
+      activate("[data-duration]", duration);
+    }
+  </script>
 </BaseLayout>

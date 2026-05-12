@@ -1,23 +1,85 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
-import { sitePath } from "@data/site-path";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import { feelingStates, resourceArticlePath, resourceArticles, selfHelpTools } from "@data/self-help-resources";
+
+const toolGroups = [
+  {
+    title: "Calm now",
+    text: "For moments that feel immediate, tight, scattered, or too loud.",
+    tools: selfHelpTools.filter((tool) => tool.intent === "Calm now"),
+  },
+  {
+    title: "Understand what I am feeling",
+    text: "For naming what is present without turning it into a diagnosis.",
+    tools: selfHelpTools.filter((tool) => tool.intent === "Understand what I am feeling"),
+  },
+  {
+    title: "Reflect privately",
+    text: "For words, patterns, and quiet processing that stays on your device.",
+    tools: selfHelpTools.filter((tool) => tool.intent === "Reflect privately"),
+  },
+];
+
+const featuredReads = resourceArticles.filter((article) => article.featured);
 ---
 <BaseLayout title="Self-help tools | The Healing Souls" description="Gentle self-help tools for grounding, breathing, reflection, and rituals.">
   <section class="section">
     <div class="container-narrow stack">
       <p class="eyebrow">Self-help</p>
       <h1>A small library for the moment you are in.</h1>
-      <p class="lede">These tools are educational and reflective. They are not diagnosis, treatment plans, or crisis support.</p>
-          </div>
+      <p class="lede">Start with what feels closest: calm your body, name what is happening, reflect privately, or read something steadying. These tools are educational and reflective, not diagnosis or crisis support.</p>
+      <SafetyNote />
+    </div>
   </section>
+
   <section class="section">
-    <div class="container grid grid-3">
-      <LinkCard title="Breathing orb" text="Follow a soft visual rhythm for a short pause." href={sitePath("/self-help/breathe")} cta="Start breathing" />
-      <LinkCard title="Grounding room" text="Move through a 5-4-3-2-1 sensory check-in." href={sitePath("/self-help/ground")} cta="Start grounding" />
-      <LinkCard title="Mood check-in" text="Choose what feels closest and receive a gentle next step." href={sitePath("/self-help/check-in")} cta="Check in" />
-      <LinkCard title="Private journal" text="Reflect locally on your device with starter prompts." href={sitePath("/self-help/journal")} cta="Open journal" />
-      <LinkCard title="Short rituals" text="Try a morning, midday, evening, or hard-day reset." href={sitePath("/self-help/rituals")} cta="Pick a ritual" />
+    <div class="container card support-router stack">
+      <div>
+        <p class="eyebrow">Support router</p>
+        <h2>What feels closest today?</h2>
+        <p class="muted">Pick a state and move into one practical next step. No scoring, no results, no pressure.</p>
+      </div>
+      <div class="choice-grid">
+        {feelingStates.map((state) => <a class="choice-chip" href={state.href}>{state.label}</a>)}
+      </div>
+    </div>
+  </section>
+
+  {toolGroups.map((group) => (
+    <section class="section">
+      <div class="container stack">
+        <div class="split-heading">
+          <div>
+            <p class="eyebrow">{group.title}</p>
+            <h2>{group.title}</h2>
+          </div>
+          <p class="lede">{group.text}</p>
+        </div>
+        <div class="grid grid-3">
+          {group.tools.map((tool) => (
+            <LinkCard title={tool.title} text={tool.text} href={tool.href} cta={tool.cta} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Read deeper</p>
+          <h2>Guides that connect back to tools.</h2>
+        </div>
+        <p class="lede">The resources library is organized around real states like overthinking, heavy days, boundaries, sleep, loneliness, and burnout.</p>
+      </div>
+      <div class="grid grid-3">
+        {featuredReads.map((article) => (
+          <LinkCard title={article.title} text={article.description} href={resourceArticlePath(article.slug)} cta="Read guide" />
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

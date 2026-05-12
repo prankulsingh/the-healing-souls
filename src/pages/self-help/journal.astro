@@ -1,7 +1,170 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import LinkCard from "@components/cards/LinkCard.astro";
+import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
+
+const related = resourceArticles.filter((article) => ["how-to-start-journaling-when-your-mind-is-noisy", "boundaries-without-harshness", "heartbreak-after-hope"].includes(article.slug));
 ---
 <BaseLayout title="Private journal | The Healing Souls" description="Local-only journal prompts for private reflection.">
-  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Reflect privately</p><h1>Private journal</h1><p class="lede">MVP note: journal storage is intentionally not connected to a server. Full local save/export/delete controls should be implemented before this becomes an active text tool.</p></div></section>
-  <section class="section"><div class="container card stack"><h2>Prompt for today</h2><p class="lede">What is one feeling asking for your attention, and what is one gentle next step?</p><p class="muted">Write in your own notebook for now. Local-only browser storage is planned next.</p></div></section>
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Reflect privately</p>
+      <h1>Private journal</h1>
+      <p class="lede">Write a few honest lines, choose a prompt, export when you want, or delete everything. Entries stay in this browser through local storage unless you export or share them.</p>
+      <SafetyNote compact />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-2">
+      <div class="card stack">
+        <p class="eyebrow">Prompt pack</p>
+        <h2 id="journal-prompt">What is one feeling asking for your attention?</h2>
+        <p class="muted">Prompts are starting points, not assignments.</p>
+        <div class="choice-grid" role="group" aria-label="Journal prompt packs">
+          <button type="button" class="choice-chip" data-prompt="Untangle a thought|What thought keeps returning, and what is it trying to protect you from?">Untangle a thought</button>
+          <button type="button" class="choice-chip" data-prompt="Talk to the feeling|If this feeling could speak plainly, what would it ask for?">Talk to the feeling</button>
+          <button type="button" class="choice-chip" data-prompt="What do I need?|What would make the next hour 5 percent kinder?">What do I need?</button>
+          <button type="button" class="choice-chip" data-prompt="Unsent letter|What do you need to say without sending it anywhere?">Unsent letter</button>
+          <button type="button" class="choice-chip" data-prompt="Remember today|What are three things you want to remember about today?">Three things</button>
+        </div>
+      </div>
+
+      <form class="card journal-form stack" data-journal-form>
+        <div>
+          <label class="field-label" for="journal-title">Title</label>
+          <input id="journal-title" class="text-input" type="text" placeholder="A few words for this entry" autocomplete="off" />
+        </div>
+        <div>
+          <label class="field-label" for="journal-entry">Private entry</label>
+          <textarea id="journal-entry" class="text-area" rows="12" placeholder="Start with one honest sentence..."></textarea>
+        </div>
+        <p id="journal-status" class="muted" aria-live="polite">Saved only on this device after you press Save.</p>
+        <div class="button-row">
+          <button class="button button-primary" type="submit">Save locally</button>
+          <button id="journal-export" class="button button-secondary" type="button">Export .md</button>
+          <button id="journal-delete" class="button button-soft" type="button">Delete all</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Saved locally</p>
+          <h2>Your entries in this browser.</h2>
+        </div>
+        <p class="lede">This list is not synced, not backed up, and not visible to The Healing Souls.</p>
+      </div>
+      <div id="journal-list" class="resource-list"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Related reading</p>
+          <h2>If you want a little more structure.</h2>
+        </div>
+        <p class="lede">Short pieces that pair well with private writing.</p>
+      </div>
+      <div class="grid grid-3">
+        {related.map((article) => <LinkCard title={article.title} text={article.description} href={resourceArticlePath(article.slug)} cta="Read guide" />)}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const key = "hs-journal-entries";
+    const titleInput = document.querySelector("#journal-title");
+    const entryInput = document.querySelector("#journal-entry");
+    const promptEl = document.querySelector("#journal-prompt");
+    const statusEl = document.querySelector("#journal-status");
+    const listEl = document.querySelector("#journal-list");
+
+    const loadEntries = () => JSON.parse(localStorage.getItem(key) || "[]");
+    const saveEntries = (entries) => localStorage.setItem(key, JSON.stringify(entries));
+
+    const renderEntries = () => {
+      const entries = loadEntries();
+      listEl.innerHTML = "";
+      if (!entries.length) {
+        listEl.innerHTML = '<p class="muted">No local entries yet.</p>';
+        return;
+      }
+      entries.slice().reverse().forEach((entry) => {
+        const article = document.createElement("article");
+        article.className = "card resource-row";
+        const wrapper = document.createElement("div");
+        const meta = document.createElement("div");
+        const date = document.createElement("span");
+        const scope = document.createElement("span");
+        const title = document.createElement("h3");
+        const preview = document.createElement("p");
+        meta.className = "article-meta";
+        date.textContent = new Date(entry.date).toLocaleDateString();
+        scope.textContent = "Local only";
+        title.textContent = entry.title || "Untitled entry";
+        preview.className = "muted";
+        preview.textContent = `${entry.body.slice(0, 180)}${entry.body.length > 180 ? "..." : ""}`;
+        meta.append(date, scope);
+        wrapper.append(meta, title, preview);
+        article.append(wrapper);
+        listEl.append(article);
+      });
+    };
+
+    document.querySelectorAll("[data-prompt]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const [title, prompt] = button.dataset.prompt.split("|");
+        promptEl.textContent = prompt;
+        titleInput.value = title;
+        entryInput.value = `${prompt}\n\n`;
+        entryInput.focus();
+      });
+    });
+
+    document.querySelector("[data-journal-form]")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const body = entryInput.value.trim();
+      if (!body) {
+        statusEl.textContent = "Add a few words before saving.";
+        return;
+      }
+      const entries = loadEntries();
+      entries.push({ title: titleInput.value.trim(), body, date: new Date().toISOString() });
+      saveEntries(entries);
+      statusEl.textContent = "Saved locally in this browser.";
+      titleInput.value = "";
+      entryInput.value = "";
+      renderEntries();
+    });
+
+    document.querySelector("#journal-export")?.addEventListener("click", () => {
+      const entries = loadEntries();
+      const markdown = entries.map((entry) => `# ${entry.title || "Untitled entry"}\n\n_${entry.date}_\n\n${entry.body}`).join("\n\n---\n\n");
+      const blob = new Blob([markdown || "# The Healing Souls journal\n\nNo local entries saved."], { type: "text/markdown" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "healing-souls-journal.md";
+      link.click();
+      URL.revokeObjectURL(url);
+      statusEl.textContent = "Export prepared as Markdown.";
+    });
+
+    document.querySelector("#journal-delete")?.addEventListener("click", () => {
+      const confirmed = window.confirm("Delete all journal entries stored in this browser?");
+      if (!confirmed) return;
+      localStorage.removeItem(key);
+      statusEl.textContent = "All local journal entries were deleted.";
+      renderEntries();
+    });
+
+    renderEntries();
+  </script>
 </BaseLayout>

@@ -16,9 +16,10 @@ const {
   description = "A warm, counselling-informed space for sessions, gentle self-help tools, and thoughtful resources.",
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const basePath = import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-base-path={basePath}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

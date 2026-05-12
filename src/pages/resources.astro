@@ -1,9 +1,205 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
+import SafetyNote from "@components/global/SafetyNote.astro";
+import { externalLinks } from "@data/external-links";
+import { feelingStates, practicalExtras, resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
+
+const featuredArticles = resourceArticles.filter((article) => article.featured);
+const topics = ["Overthinking", "Burnout", "Boundaries", "Self-worth", "Heartbreak", "Sleep", "Journaling", "Loneliness", "Rest"];
+const topicLinks = topics.map((topic) => {
+  const article = resourceArticles.find((item) => (item.tags as readonly string[]).includes(topic));
+  return {
+    topic,
+    href: article ? `#resource-${article.slug}` : "#",
+  };
+});
 ---
 <BaseLayout title="Resources | The Healing Souls" description="Curated grounding resources and starter reading topics.">
-  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Resources</p><h1>Thoughtful reading for self-reflection.</h1><p class="lede">The editorial library will grow around overthinking, burnout, boundaries, self-worth, heartbreak, stress, sleep, journaling, and gentle routines.</p></div></section>
-  <section class="section"><div class="container grid grid-3"><LinkCard title="Overthinking" text="For mental loops and inner noise." href={sitePath("/self-help/check-in")} cta="Find a practice" /><LinkCard title="Burnout" text="For heaviness, depletion, and rest resistance." href={sitePath("/self-help/rituals")} cta="Try a ritual" /><LinkCard title="Boundaries" text="For clearer communication without harshness." href={sitePath("/sessions")} cta="Explore support" /></div></section>
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Resources</p>
+      <h1>A library for the days that need words.</h1>
+      <p class="lede">Browse short, counselling-informed guides by feeling, topic, or next step. Each piece includes a practical exercise, a related self-help tool, and a softer route to support.</p>
+      <SafetyNote />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container card resource-search stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Find a starting point</p>
+          <h2>Search by what is present.</h2>
+        </div>
+        <p class="lede">This search filters only the cards on this page. Nothing is sent to a server.</p>
+      </div>
+      <label class="field-label" for="resource-search">Search resources</label>
+      <input id="resource-search" class="text-input" type="search" placeholder="Try overthinking, sleep, boundaries, journaling..." />
+      <div class="choice-grid" aria-label="Browse by feeling">
+        {feelingStates.map((state) => <a class="choice-chip" href={`#feeling-${state.value}`}>{state.label}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Featured articles</p>
+          <h2>Start with the three homepage reads.</h2>
+        </div>
+        <p class="lede">These are no longer placeholders. They are pinned here until the library grows deeper.</p>
+      </div>
+      <div class="grid grid-3">
+        {featuredArticles.map((article) => (
+          <article id={article.slug} class="card article-card stack" data-resource-card data-search={`${article.title} ${article.description} ${article.tags.join(" ")} ${article.stateTags.join(" ")}`}>
+            <div class="article-meta">
+              <span>{article.readingTime}</span>
+              <span>{article.tags[0]}</span>
+            </div>
+            <h3>{article.title}</h3>
+            <p class="muted">{article.blurb}</p>
+            <div class="tag-row">
+              {article.tags.map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+            <div class="button-row">
+              <a class="button button-soft" href={article.toolHref}>{article.toolLabel}</a>
+              <a class="button button-secondary" href={sitePath("/sessions")}>Get support</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Browse by feeling</p>
+          <h2>Choose the state, not the category.</h2>
+        </div>
+        <p class="lede">Each path gives one practical tool and related reading without making the feeling into a label.</p>
+      </div>
+      <div class="grid grid-3">
+        {feelingStates.map((state) => {
+          const firstMatch = resourceArticles.find((article) => (article.stateTags as readonly string[]).includes(state.value));
+          return (
+            <article id={`feeling-${state.value}`} class="card stack" data-resource-card data-search={`${state.label} ${firstMatch?.title ?? ""} ${firstMatch?.description ?? ""}`}>
+              <p class="eyebrow">{state.label}</p>
+              <h3>{firstMatch?.title ?? "A gentle next step"}</h3>
+              <p class="muted">{firstMatch?.description ?? "Start with a reflective practice and choose the pace that feels possible."}</p>
+              <div class="button-row">
+                <a class="button button-soft" href={state.href}>Use a tool</a>
+                {firstMatch && <a class="button button-secondary" href={resourceArticlePath(firstMatch.slug).replace(sitePath("/resources"), "")}>Read guide</a>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Browse by topic</p>
+          <h2>Topic shelves for repeat visits.</h2>
+        </div>
+        <p class="lede">The library is intentionally scoped around issues this brand already names: overthinking, burnout, boundaries, self-worth, heartbreak, sleep, journaling, and rest.</p>
+      </div>
+      <div class="topic-cloud">
+        {topicLinks.map((topic) => <a class="choice-chip" href={topic.href}>{topic.topic}</a>)}
+      </div>
+      <div class="resource-list">
+        {resourceArticles.map((article) => (
+          <article id={`resource-${article.slug}`} class="card resource-row" data-resource-card data-search={`${article.title} ${article.description} ${article.blurb} ${article.tags.join(" ")} ${article.stateTags.join(" ")}`}>
+            <div>
+              <div class="article-meta">
+                <span>{article.readingTime}</span>
+                <span>{article.tags.join(" / ")}</span>
+              </div>
+              <h3>{article.title}</h3>
+              <p class="muted">{article.description}</p>
+            </div>
+            <div class="button-row">
+              <a class="button button-soft" href={resourceArticlePath(article.slug).replace(sitePath("/resources"), "")}>Read summary</a>
+              <a class="button button-secondary" href={article.toolHref}>{article.toolLabel}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p id="resource-empty" class="muted hidden">No visible resources match that search yet. Try a broader word like rest, burnout, or overthinking.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="split-heading">
+        <div>
+          <p class="eyebrow">Practical extras</p>
+          <h2>Small tools that turn reading into action.</h2>
+        </div>
+        <p class="lede">These extras are designed as static-site friendly companions to the articles and self-help routes.</p>
+      </div>
+      <div class="grid grid-3">
+        {practicalExtras.map((extra) => <LinkCard title={extra.title} text={extra.text} href={extra.href} cta="Open" />)}
+      </div>
+      <div id="boundary-phrases" class="card stack">
+        <p class="eyebrow">Boundary phrases studio</p>
+        <h3>Borrow language without becoming harsh.</h3>
+        <div class="script-grid">
+          <p><strong>Soft:</strong> I want to be honest: I do not have the capacity to say yes to this right now.</p>
+          <p><strong>Direct:</strong> I cannot take this on. I need to protect my time and energy.</p>
+          <p><strong>Warm but firm:</strong> I care about this, and I still need to pause before I commit.</p>
+        </div>
+      </div>
+      <div id="heavy-day-reset" class="card stack">
+        <p class="eyebrow">Heavy day reset deck</p>
+        <h3>Pick one card, not a whole new life.</h3>
+        <div class="choice-grid">
+          <span class="choice-chip">Drink water slowly</span>
+          <span class="choice-chip">Uncurl your shoulders</span>
+          <span class="choice-chip">Choose one next task</span>
+          <span class="choice-chip">Send one honest message</span>
+          <span class="choice-chip">Lower the standard</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container card stack">
+      <p class="eyebrow">More support</p>
+      <h2>Reading can help you begin. You do not have to stay alone with it.</h2>
+      <p class="lede">If you want one-to-one support, book through Topmate. If you want to stay private for now, continue with a tool or journal prompt.</p>
+      <div class="button-row">
+        <a class="button button-primary" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a>
+        <a class="button button-secondary" href={sitePath("/self-help")}>Explore self-help</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const input = document.querySelector("#resource-search");
+    const cards = Array.from(document.querySelectorAll("[data-resource-card]"));
+    const empty = document.querySelector("#resource-empty");
+
+    input?.addEventListener("input", () => {
+      const query = input.value.toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach((card) => {
+        const haystack = card.getAttribute("data-search")?.toLowerCase() ?? "";
+        const match = !query || haystack.includes(query);
+        card.classList.toggle("hidden", !match);
+        if (match) visible += 1;
+      });
+
+      empty?.classList.toggle("hidden", visible !== 0);
+    });
+  </script>
 </BaseLayout>
