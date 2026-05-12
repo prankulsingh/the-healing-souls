@@ -98,8 +98,8 @@ p { margin: 0; }
 .brand { display: inline-flex; align-items: center; gap: .75rem; font-weight: 900; text-decoration: none; }
 .brand-mark { width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center; background: var(--color-ink); color: var(--color-gold); font-family: var(--font-serif); }
 .nav-links { display: flex; align-items: center; gap: 1rem; }
-.nav-links a { text-decoration: none; font-weight: 750; color: var(--color-muted); }
-.nav-links a:hover { color: var(--color-ink); }
+.nav-links a:not(.button) { text-decoration: none; font-weight: 750; color: var(--color-muted); }
+.nav-links a:not(.button):hover { color: var(--color-ink); }
 .hero { padding-block: clamp(4rem, 10vw, 8rem); }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .9fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 .hero-art { min-height: 28rem; position: relative; overflow: hidden; background: linear-gradient(140deg, var(--color-ink), #3b302a); color: var(--color-surface); }

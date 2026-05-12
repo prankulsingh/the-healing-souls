@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import ContactActions from "@components/marketing/ContactActions.astro";
 import { practitioner } from "@data/practitioner";
 ---
@@ -10,8 +9,7 @@ import { practitioner } from "@data/practitioner";
       <p class="eyebrow">About</p>
       <h1>Professional support that still feels human.</h1>
       <p class="lede">{practitioner.name} is a {practitioner.title} creating a warm, non-judgmental space for reflection, emotional clarity, and gentle change.</p>
-      <SafetyNote />
-    </div>
+          </div>
   </section>
   <section class="section">
     <div class="container grid grid-2">

@@ -1,9 +1,8 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 const rituals = ["Morning: one breath, one glass of water, one sentence of intention.", "Midday: unclench your jaw, stretch your hands, choose one next task.", "Evening: dim the lights, name what you carried, name what can wait.", "Hard day: lower the standard, ask for support, return to basics."];
 ---
 <BaseLayout title="Short rituals | The Healing Souls" description="Short reset rituals for different parts of the day.">
-  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Rituals</p><h1>Short routines for hard and ordinary days.</h1><p class="lede">Small practices can create a sense of rhythm without turning healing into another task list.</p><SafetyNote /></div></section>
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Rituals</p><h1>Short routines for hard and ordinary days.</h1><p class="lede">Small practices can create a sense of rhythm without turning healing into another task list.</p></div></section>
   <section class="section"><div class="container grid grid-2">{rituals.map((ritual) => <article class="card"><p>{ritual}</p></article>)}</div></section>
 </BaseLayout>

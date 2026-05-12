@@ -1,23 +1,21 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import ContactActions from "@components/marketing/ContactActions.astro";
 import { externalLinks } from "@data/external-links";
 ---
-<BaseLayout title="Counselling sessions | The Healing Souls" description="Learn how sessions work and continue to Topmate for booking.">
+<BaseLayout title="Counselling sessions | The Healing Souls" description="Learn how sessions work and take the first step towards feeling supported.">
   <section class="section">
     <div class="container-narrow stack">
       <p class="eyebrow">Sessions</p>
-      <h1>Clear support, booked through Topmate.</h1>
+      <h1>Clear, gentle support for your journey.</h1>
       <p class="lede">Sessions can support reflection around overwhelm, stress, overthinking, boundaries, self-worth, heartbreak, burnout, and routine building.</p>
       <div class="button-row"><a class="button button-primary" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a></div>
-      <SafetyNote />
-    </div>
+          </div>
   </section>
   <section class="section">
     <div class="container grid grid-3">
       <article class="card stack"><p class="eyebrow">1</p><h3>Explore fit</h3><p class="muted">Read expectations and decide whether this kind of support feels right.</p></article>
-      <article class="card stack"><p class="eyebrow">2</p><h3>Book externally</h3><p class="muted">Continue to Topmate for booking, scheduling, and payments. The website does not process payments.</p></article>
+      <article class="card stack"><p class="eyebrow">2</p><h3>Book your session</h3><p class="muted">Schedule a time that works for you. All bookings and payments are handled securely through Topmate.</p></article>
       <article class="card stack"><p class="eyebrow">3</p><h3>Begin gently</h3><p class="muted">Arrive with what feels present. You do not need perfect words to start.</p></article>
     </div>
   </section>

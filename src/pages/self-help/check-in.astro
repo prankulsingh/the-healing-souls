@@ -1,10 +1,9 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import { sitePath } from "@data/site-path";
 ---
 <BaseLayout title="Mood check-in | The Healing Souls" description="A non-diagnostic check-in that routes you to a gentle next step.">
-  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Check in</p><h1>What feels closest right now?</h1><p class="lede">Choose a path. This is not a diagnosis or a result engine; it is a soft routing aid.</p><SafetyNote /></div></section>
+  <section class="section"><div class="container-narrow stack"><p class="eyebrow">Check in</p><h1>What feels closest right now?</h1><p class="lede">Choose a path. This is not a diagnosis or a result engine; it is a soft routing aid.</p></div></section>
   <section class="section"><div class="container grid grid-3"><LinkCard title="I feel scattered" text="Try a sensory grounding flow." href={sitePath("/self-help/ground")} cta="Ground" /><LinkCard title="I feel tense" text="Try a paced breathing pause." href={sitePath("/self-help/breathe")} cta="Breathe" /><LinkCard title="I need words" text="Open a private journal prompt." href={sitePath("/self-help/journal")} cta="Journal" /></div></section>
 </BaseLayout>

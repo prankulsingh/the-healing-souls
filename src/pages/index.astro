@@ -2,7 +2,6 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@components/marketing/Hero.astro";
 import TrustStrip from "@components/marketing/TrustStrip.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import SectionHeader from "@components/marketing/SectionHeader.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import ContactActions from "@components/marketing/ContactActions.astro";
@@ -15,8 +14,7 @@ import { sitePath } from "@data/site-path";
 
   <section class="section">
     <div class="container stack">
-      <SafetyNote />
-      <SectionHeader eyebrow="Choose your path" title="Start where your nervous system is today." text="The site keeps one clear booking path while offering immediate, no-pressure self-help and reading options." />
+            <SectionHeader eyebrow="Choose your path" title="Start where your nervous system is today." text="We offer a clear path to professional support, alongside immediate, no-pressure tools and resources for your journey." />
       <div class="grid grid-3">
         <LinkCard title="Book a session" text="Understand fit, format, expectations, and then continue to Topmate for scheduling." href={sitePath("/sessions")} cta="Explore sessions" />
         <LinkCard title="Calm myself now" text="Try a breathing guide, grounding flow, check-in, journal prompt, or short ritual." href={sitePath("/self-help")} cta="Open tools" />
@@ -45,10 +43,10 @@ import { sitePath } from "@data/site-path";
       <div class="card tool-shell stack">
         <div class="breathing-orb" aria-hidden="true"></div>
         <h3>Breathe in. Soften out.</h3>
-        <p class="muted">A preview of the breathing tool, with a reduced-motion fallback built into the visual system.</p>
+        <p class="muted">A gentle space to catch your breath and anchor yourself in the present moment.</p>
       </div>
       <div class="stack">
-        <SectionHeader eyebrow="Featured tool" title="A small pause can become a doorway." text="Self-help features should feel practical and emotionally safe, not like quizzes or diagnosis engines." />
+        <SectionHeader eyebrow="Featured tool" title="A small pause can become a doorway." text="Tools designed to feel practical and emotionally safe, offering a quiet moment of relief when things feel heavy." />
         <a class="button button-primary" href={sitePath("/self-help/breathe")}>Try the breathing tool</a>
       </div>
     </div>
@@ -69,7 +67,7 @@ import { sitePath } from "@data/site-path";
     <div class="container card stack">
       <p class="eyebrow">Begin gently</p>
       <h2>Ready to take the next right step?</h2>
-      <p class="lede">Book through Topmate, explore self-help privately, or connect through a confirmed contact channel.</p>
+      <p class="lede">Reach out for a session or explore our resources privately at your own pace.</p>
       <ContactActions />
     </div>
   </section>
