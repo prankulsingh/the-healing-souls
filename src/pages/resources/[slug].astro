@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { externalLinks } from "@data/external-links";
+import { resourceArticles } from "@data/self-help-resources";
+import { sitePath } from "@data/site-path";
+
+type ResourceModule = {
+  frontmatter: {
+    title: string;
+    description: string;
+    readingTime?: string;
+    tags?: string[];
+    relatedTool?: string;
+    relatedToolLabel?: string;
+  };
+  Content: any;
+};
+
+type ArticlePage = ResourceModule["frontmatter"] & {
+  slug: string;
+  Content: any;
+  relatedTool: string;
+  relatedToolLabel: string;
+};
+
+export function getStaticPaths() {
+  const modules = import.meta.glob("../../content/resources/*.md", { eager: true });
+  const articles = Object.entries(modules).map(([path, module]) => {
+    const slug = path.split("/").pop()?.replace(".md", "") ?? "";
+    const content = module as ResourceModule;
+    const summary = resourceArticles.find((item) => item.slug === slug);
+
+    return {
+      slug,
+      ...content.frontmatter,
+      Content: content.Content,
+      relatedTool: content.frontmatter.relatedTool ?? summary?.toolHref ?? sitePath("/self-help"),
+      relatedToolLabel: content.frontmatter.relatedToolLabel ?? summary?.toolLabel ?? "Open self-help",
+    };
+  });
+
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props as { article: ArticlePage };
+const Content = article.Content;
+---
+<BaseLayout title={`${article.title} | The Healing Souls`} description={article.description}>
+  <section class="section">
+    <div class="container-narrow stack">
+      <p class="eyebrow">Resources · {article.readingTime ?? "Gentle read"}</p>
+      <h1>{article.title}</h1>
+      <p class="lede">{article.description}</p>
+      {article.tags && <div class="tag-row">{article.tags.map((tag) => <span class="pill">{tag}</span>)}</div>}
+    </div>
+  </section>
+
+  <section class="section">
+    <article class="container-narrow card article-prose">
+      <Content />
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="container card stack">
+      <p class="eyebrow">Next gentle step</p>
+      <h2>Stay with this at the pace that feels possible.</h2>
+      <p class="lede">Try a related practice, return to the library, or book a private session if this brought up something you want supported.</p>
+      <div class="button-row">
+        <a class="button button-primary" href={article.relatedTool}>{article.relatedToolLabel}</a>
+        <a class="button button-secondary" href={sitePath("/resources")}>Back to resources</a>
+        <a class="button button-soft" href={externalLinks.topmate} target="_blank" rel="noreferrer">Book on Topmate</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

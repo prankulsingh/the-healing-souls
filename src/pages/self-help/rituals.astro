@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 
@@ -12,7 +11,6 @@ const related = resourceArticles.filter((article) => ["a-reset-for-heavy-days", 
       <p class="eyebrow">Rituals</p>
       <h1>Short routines for hard and ordinary days.</h1>
       <p class="lede">Choose how much time you have, what state you are in, and where this ritual needs to fit. The page will build a three-step reset without streaks, scoring, or guilt.</p>
-      <SafetyNote compact />
     </div>
   </section>
 
@@ -79,7 +77,7 @@ const related = resourceArticles.filter((article) => ["a-reset-for-heavy-days", 
           <p class="eyebrow">Saved favourites</p>
           <h2>Recently useful routines.</h2>
         </div>
-        <p class="lede">Saved only in this browser, so you can return without creating an account.</p>
+        <p class="lede">Save the routines that feel kind enough to repeat on another hard or ordinary day.</p>
       </div>
       <div id="ritual-favourites" class="resource-list"></div>
     </div>

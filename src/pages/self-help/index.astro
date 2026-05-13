@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import { feelingStates, resourceArticlePath, resourceArticles, selfHelpTools } from "@data/self-help-resources";
 
 const toolGroups = [
@@ -30,7 +29,6 @@ const featuredReads = resourceArticles.filter((article) => article.featured);
       <p class="eyebrow">Self-help</p>
       <h1>A small library for the moment you are in.</h1>
       <p class="lede">Start with what feels closest: calm your body, name what is happening, reflect privately, or read something steadying. These tools are educational and reflective, not diagnosis or crisis support.</p>
-      <SafetyNote />
     </div>
   </section>
 

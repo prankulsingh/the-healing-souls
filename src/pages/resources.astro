@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import { externalLinks } from "@data/external-links";
 import { feelingStates, practicalExtras, resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
@@ -12,7 +11,7 @@ const topicLinks = topics.map((topic) => {
   const article = resourceArticles.find((item) => (item.tags as readonly string[]).includes(topic));
   return {
     topic,
-    href: article ? `#resource-${article.slug}` : "#",
+    href: article ? resourceArticlePath(article.slug) : "#",
   };
 });
 ---
@@ -22,7 +21,6 @@ const topicLinks = topics.map((topic) => {
       <p class="eyebrow">Resources</p>
       <h1>A library for the days that need words.</h1>
       <p class="lede">Browse short, counselling-informed guides by feeling, topic, or next step. Each piece includes a practical exercise, a related self-help tool, and a softer route to support.</p>
-      <SafetyNote />
     </div>
   </section>
 
@@ -33,7 +31,7 @@ const topicLinks = topics.map((topic) => {
           <p class="eyebrow">Find a starting point</p>
           <h2>Search by what is present.</h2>
         </div>
-        <p class="lede">This search filters only the cards on this page. Nothing is sent to a server.</p>
+        <p class="lede">Use one word from your day: sleep, boundaries, burnout, loneliness, overthinking, rest. Let the library narrow gently around what feels most alive.</p>
       </div>
       <label class="field-label" for="resource-search">Search resources</label>
       <input id="resource-search" class="text-input" type="search" placeholder="Try overthinking, sleep, boundaries, journaling..." />
@@ -50,7 +48,7 @@ const topicLinks = topics.map((topic) => {
           <p class="eyebrow">Featured articles</p>
           <h2>Start with the three homepage reads.</h2>
         </div>
-        <p class="lede">These are no longer placeholders. They are pinned here until the library grows deeper.</p>
+        <!-- <p class="lede">These are no longer placeholders. They are pinned here until the library grows deeper.</p> -->
       </div>
       <div class="grid grid-3">
         {featuredArticles.map((article) => (
@@ -65,7 +63,7 @@ const topicLinks = topics.map((topic) => {
               {article.tags.map((tag) => <span class="pill">{tag}</span>)}
             </div>
             <div class="button-row">
-              <a class="button button-soft" href={article.toolHref}>{article.toolLabel}</a>
+              <a class="button button-soft" href={resourceArticlePath(article.slug)}>Read article</a>
               <a class="button button-secondary" href={sitePath("/sessions")}>Get support</a>
             </div>
           </article>
@@ -93,7 +91,7 @@ const topicLinks = topics.map((topic) => {
               <p class="muted">{firstMatch?.description ?? "Start with a reflective practice and choose the pace that feels possible."}</p>
               <div class="button-row">
                 <a class="button button-soft" href={state.href}>Use a tool</a>
-                {firstMatch && <a class="button button-secondary" href={resourceArticlePath(firstMatch.slug).replace(sitePath("/resources"), "")}>Read guide</a>}
+                {firstMatch && <a class="button button-secondary" href={resourceArticlePath(firstMatch.slug)}>Read guide</a>}
               </div>
             </article>
           );
@@ -126,7 +124,7 @@ const topicLinks = topics.map((topic) => {
               <p class="muted">{article.description}</p>
             </div>
             <div class="button-row">
-              <a class="button button-soft" href={resourceArticlePath(article.slug).replace(sitePath("/resources"), "")}>Read summary</a>
+              <a class="button button-soft" href={resourceArticlePath(article.slug)}>Read article</a>
               <a class="button button-secondary" href={article.toolHref}>{article.toolLabel}</a>
             </div>
           </article>
@@ -143,7 +141,7 @@ const topicLinks = topics.map((topic) => {
           <p class="eyebrow">Practical extras</p>
           <h2>Small tools that turn reading into action.</h2>
         </div>
-        <p class="lede">These extras are designed as static-site friendly companions to the articles and self-help routes.</p>
+        <p class="lede">A few quick practices for the moments when insight needs language, movement, or one small card to hold onto.</p>
       </div>
       <div class="grid grid-3">
         {practicalExtras.map((extra) => <LinkCard title={extra.title} text={extra.text} href={extra.href} cta="Open" />)}

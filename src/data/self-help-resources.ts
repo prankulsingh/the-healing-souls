@@ -28,7 +28,7 @@ export const selfHelpTools = [
   {
     title: "Private journal",
     intent: "Reflect privately",
-    text: "Local-only prompts, autosave, export, and delete controls for private reflection.",
+    text: "Prompt packs, saved notes, export, and clear controls for private reflection.",
     href: sitePath("/self-help/journal"),
     cta: "Open journal",
     tags: ["journal", "self-worth", "overthinking"],
@@ -198,13 +198,11 @@ export const practicalExtras = [
   },
   {
     title: "Save to journal prompts",
-    text: "Prompts that move directly into private reflection on your own device.",
+    text: "Prompts that make it easier to begin when the page feels too blank.",
     href: sitePath("/self-help/journal"),
   },
 ] as const;
 
 export const resourceArticlePath = (slug: string) => {
-  const article = resourceArticles.find((item) => item.slug === slug);
-  const anchor = article?.featured ? slug : `resource-${slug}`;
-  return `${sitePath("/resources")}#${anchor}`;
+  return sitePath(`/resources/${slug}`);
 };

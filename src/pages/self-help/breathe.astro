@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
@@ -13,7 +12,6 @@ const related = resourceArticles.filter((article) => ["when-sleep-feels-far-away
       <p class="eyebrow">Calm now</p>
       <h1>Breathing orb</h1>
       <p class="lede">Choose a breathing rhythm, set a short duration, and let the page guide one breath at a time. Hold-based patterns are optional, and reduced-motion users get text cues instead of pulsing motion.</p>
-      <SafetyNote compact />
     </div>
   </section>
 

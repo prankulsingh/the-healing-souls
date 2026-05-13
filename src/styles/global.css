@@ -147,6 +147,12 @@ p { margin: 0; }
 .prose { max-width: 72ch; }
 .prose p, .prose ul, .prose ol { margin-block: 1rem; }
 .prose li + li { margin-top: .5rem; }
+.article-prose { font-size: clamp(1.02rem, 1.6vw, 1.14rem); line-height: 1.78; }
+.article-prose h2 { margin: 2rem 0 .75rem; font-size: clamp(1.6rem, 3vw, 2.35rem); }
+.article-prose p { margin-block: 1rem; }
+.article-prose ul, .article-prose ol { margin-block: 1rem; padding-left: 1.35rem; }
+.article-prose li + li { margin-top: .5rem; }
+.article-prose em { color: var(--color-sage-dark); }
 .tool-shell { min-height: 22rem; display: grid; place-items: center; text-align: center; }
 .breathing-orb { width: min(52vw, 14rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--color-rose), var(--color-gold)); box-shadow: 0 0 0 2rem rgb(183 152 96 / .12); animation: breathe 6s var(--ease-premium) infinite; }
 .support-router { background: linear-gradient(135deg, rgb(251 248 244 / .9), rgb(238 229 220 / .85)); }

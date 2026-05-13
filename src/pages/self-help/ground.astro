@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
@@ -13,7 +12,6 @@ const related = resourceArticles.filter((article) => ["when-your-mind-will-not-s
       <p class="eyebrow">Grounding</p>
       <h1>5-4-3-2-1 grounding room</h1>
       <p class="lede">Move through one sensory prompt at a time. You can type a word, tap an example, or skip a sense that is not practical right now.</p>
-      <SafetyNote compact />
     </div>
   </section>
 

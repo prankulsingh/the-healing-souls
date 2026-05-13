@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 import { sitePath } from "@data/site-path";
 
@@ -13,7 +12,6 @@ const related = resourceArticles.filter((article) => ["what-self-worth-sounds-li
       <p class="eyebrow">Check in</p>
       <h1>What feels closest right now?</h1>
       <p class="lede">Use this as a soft routing aid, not a diagnosis. Pick a feeling family, add a few context tags, and receive one practical next step.</p>
-      <SafetyNote compact />
     </div>
   </section>
 
@@ -76,9 +74,9 @@ const related = resourceArticles.filter((article) => ["what-self-worth-sounds-li
       </div>
 
       <div class="card local-insight">
-        <p class="eyebrow">Local pattern view</p>
-        <p id="checkin-history" class="muted">Your recent check-in pattern will appear here after you complete one. It stays in this browser.</p>
-        <button id="checkin-clear" class="button button-soft" type="button">Clear local check-ins</button>
+        <p class="eyebrow">Pattern view</p>
+        <p id="checkin-history" class="muted">After a few check-ins, this space can show which feelings have been visiting most often.</p>
+        <button id="checkin-clear" class="button button-soft" type="button">Clear check-ins</button>
       </div>
     </div>
   </section>
@@ -104,28 +102,28 @@ const related = resourceArticles.filter((article) => ["what-self-worth-sounds-li
         title: "Ground before you solve.",
         copy: "When everything is pulling at you, the next kind step is sensory contact before analysis.",
         tool: "/self-help/ground",
-        read: "/resources#when-your-mind-will-not-slow-down",
+        read: "/resources/when-your-mind-will-not-slow-down",
         cta: "Start grounding",
       },
       heavy: {
         title: "Lower the standard for the next hour.",
         copy: "Heavy days often need fewer demands, not stronger pressure. Choose one small reset.",
         tool: "/self-help/rituals",
-        read: "/resources#a-reset-for-heavy-days",
+        read: "/resources/a-reset-for-heavy-days",
         cta: "Build a ritual",
       },
       restless: {
         title: "Lengthen the exhale.",
         copy: "If your body feels wired, start with a paced breath before asking for reflection.",
         tool: "/self-help/breathe",
-        read: "/resources#resource-when-sleep-feels-far-away",
+        read: "/resources/when-sleep-feels-far-away",
         cta: "Start breathing",
       },
       numb: {
         title: "Use words gently.",
         copy: "When feeling feels far away, a prompt can make contact without forcing clarity.",
         tool: "/self-help/journal",
-        read: "/resources#resource-the-loneliness-hidden-in-busy-lives",
+        read: "/resources/the-loneliness-hidden-in-busy-lives",
         cta: "Open journal",
       },
     };
@@ -143,7 +141,7 @@ const related = resourceArticles.filter((article) => ["what-self-worth-sounds-li
       }, {});
       const summary = Object.entries(counts).map(([feeling, count]) => `${feeling}: ${count}`).join(" / ");
       const historyEl = document.querySelector("#checkin-history");
-      historyEl.textContent = summary ? `Recent local pattern: ${summary}.` : "Your recent check-in pattern will appear here after you complete one. It stays in this browser.";
+      historyEl.textContent = summary ? `Recent pattern: ${summary}.` : "After a few check-ins, this space can show which feelings have been visiting most often.";
     };
 
     document.querySelectorAll("[data-feeling]").forEach((button) => {

@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SafetyNote from "@components/global/SafetyNote.astro";
 import LinkCard from "@components/cards/LinkCard.astro";
 import { resourceArticlePath, resourceArticles } from "@data/self-help-resources";
 
@@ -11,8 +10,7 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
     <div class="container-narrow stack">
       <p class="eyebrow">Reflect privately</p>
       <h1>Private journal</h1>
-      <p class="lede">Write a few honest lines, choose a prompt, export when you want, or delete everything. Entries stay in this browser through local storage unless you export or share them.</p>
-      <SafetyNote compact />
+      <p class="lede">Write a few honest lines, choose a prompt, export when you want, or clear the page when the thought has moved through. Treat it like a private notebook for this device.</p>
     </div>
   </section>
 
@@ -40,7 +38,7 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
           <label class="field-label" for="journal-entry">Private entry</label>
           <textarea id="journal-entry" class="text-area" rows="12" placeholder="Start with one honest sentence..."></textarea>
         </div>
-        <p id="journal-status" class="muted" aria-live="polite">Saved only on this device after you press Save.</p>
+        <p id="journal-status" class="muted" aria-live="polite">Press Save when a note feels worth keeping for later.</p>
         <div class="button-row">
           <button class="button button-primary" type="submit">Save locally</button>
           <button id="journal-export" class="button button-secondary" type="button">Export .md</button>
@@ -54,10 +52,10 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
     <div class="container stack">
       <div class="split-heading">
         <div>
-          <p class="eyebrow">Saved locally</p>
-          <h2>Your entries in this browser.</h2>
+          <p class="eyebrow">Saved entries</p>
+          <h2>Notes you may want to return to.</h2>
         </div>
-        <p class="lede">This list is not synced, not backed up, and not visible to The Healing Souls.</p>
+        <p class="lede">Keep what helps, export what you want to carry elsewhere, and delete what has done its work.</p>
       </div>
       <div id="journal-list" class="resource-list"></div>
     </div>
@@ -107,7 +105,7 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
         const preview = document.createElement("p");
         meta.className = "article-meta";
         date.textContent = new Date(entry.date).toLocaleDateString();
-        scope.textContent = "Local only";
+        scope.textContent = "Private note";
         title.textContent = entry.title || "Untitled entry";
         preview.className = "muted";
         preview.textContent = `${entry.body.slice(0, 180)}${entry.body.length > 180 ? "..." : ""}`;
@@ -138,7 +136,7 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
       const entries = loadEntries();
       entries.push({ title: titleInput.value.trim(), body, date: new Date().toISOString() });
       saveEntries(entries);
-      statusEl.textContent = "Saved locally in this browser.";
+      statusEl.textContent = "Saved for later.";
       titleInput.value = "";
       entryInput.value = "";
       renderEntries();
@@ -158,10 +156,10 @@ const related = resourceArticles.filter((article) => ["how-to-start-journaling-w
     });
 
     document.querySelector("#journal-delete")?.addEventListener("click", () => {
-      const confirmed = window.confirm("Delete all journal entries stored in this browser?");
+      const confirmed = window.confirm("Delete all journal entries saved on this device?");
       if (!confirmed) return;
       localStorage.removeItem(key);
-      statusEl.textContent = "All local journal entries were deleted.";
+      statusEl.textContent = "All saved journal entries were deleted.";
       renderEntries();
     });
 
