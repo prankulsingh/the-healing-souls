@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-const site = process.env.PUBLIC_SITE_URL ?? "https://the-healing-souls.local";
+const site = process.env.PUBLIC_SITE_URL ?? "https://healingsouls.co.in";
 const base = process.env.PUBLIC_BASE_PATH ?? "";
 
 export default defineConfig({
